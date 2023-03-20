@@ -38,16 +38,25 @@ export const GET_PUBLIC_DRIVE_TRANSACTIONS = `
 `;
 
 export async function fetchGraphQL(query: string, variables: Record<string, any>) {
-	const response = await fetch('https://www.arweave.net/graphql', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			query,
-			variables
-		})
-	});
+	const run = async () => {
+		const response = await fetch('https://www.arweave.net/graphql', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				query,
+				variables
+			})
+		}); // Abort retrying if the resource doesn't exist
+		if (response.status === 404) {
+			throw new AbortError(response.statusText);
+		}
+
+		return response;
+	};
+
+	const response = await pRetry(run, { retries: 8 });
 
 	const result = await response.json();
 	// Fetch JSON data for each transaction

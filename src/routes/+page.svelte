@@ -60,7 +60,11 @@
 	<main>
 		<div>
 			{#if loading}
-				<div class="placeholder" />
+				<div class="container h-full" >
+					<div class="flex items-center justify-center h-full">
+						<div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+					</div>
+				</div>
 			{:else}
 				<div class="container  mx-auto px-4 w-6/12">
 					<ul class="list-none">
