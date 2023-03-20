@@ -17,8 +17,11 @@
 
 		hasNextPage = data.transactions.pageInfo.hasNextPage;
 		if (data.transactions.edges.length) {
-			cursors[currentPage] = data.transactions.edges[0].cursor;
 			transactions = data.transactions.edges.map((edge: { node: any }) => edge.node);
+			if (hasNextPage) {
+				cursors[currentPage + 1] =
+					data.transactions.edges[data.transactions.edges.length - 1].cursor;
+			}
 		}
 		loading = false;
 		updatePages();
