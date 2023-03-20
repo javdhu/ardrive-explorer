@@ -64,11 +64,11 @@ export async function fetchGraphQL(query: string, variables: Record<string, any>
 
 		const dataResponse = await pRetry(run, { retries: 8 });
 		const tags = edge.node.tags;
-		const unixTime: number = tags.find((tag: { name: string }) => tag.name === 'Unix-Time')?.value;
+		const unixTime: string = tags.find((tag: { name: string }) => tag.name === 'Unix-Time')?.value;
 		const driveId: string = tags.find((tag: { name: string }) => tag.name === 'Drive-Id')?.value;
 
 		const jsonData = await dataResponse.json();
-		const createdOn = new Date(unixTime).toLocaleDateString();
+		const createdOn = new Date(parseInt(unixTime) * 1000).toLocaleDateString();
 		const driveLink = 'https://app.ardrive.io/#/drives/' + driveId;
 		return { ...edge, node: { ...edge.node, jsonData, createdOn, driveLink } };
 	});
