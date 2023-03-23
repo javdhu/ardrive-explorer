@@ -74,11 +74,11 @@
 	<main>
 		<div>
 			{#if loading}
-				<div class="container h-full">
-					<div class="flex items-center justify-center h-full">
-						<div
-							class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"
-						/>
+				<div class="flex justify-center  ">
+					<div class="card w-96 ">
+						<div class="card-body flex justify-evenly">
+							<p>Loading Drives...</p>
+						</div>
 					</div>
 				</div>
 			{:else}
@@ -93,7 +93,6 @@
 									class="container cursor-pointer"
 								>
 									<div class="stat">
-										
 										<div class="stat-value">{transaction.jsonData.name}</div>
 										<div class="stat-title">By {transaction.owner.address}</div>
 									</div>
@@ -102,34 +101,29 @@
 						{/each}
 					</ul>
 				</div>
-			{/if}
-
-			<div class="btn-group  flex justify-center m-5 ">
-				<button
-					class="btn"
-					on:click={() => goToPage(currentPage - 1)}
-					disabled={currentPage === 0}
-				>
-					«
-				</button>
-				{#each pages as page}
+				<div class="btn-group  flex justify-center m-5 ">
 					<button
-						class:btn-active={page === currentPage}
 						class="btn"
-						on:click={() => goToPage(page)}
-						disabled={!cursors[page] && page !== 0}
+						on:click={() => goToPage(currentPage - 1)}
+						disabled={currentPage === 0}
 					>
-						{page + 1}
+						«
 					</button>
-				{/each}
-				<button
-					class="btn"
-					on:click={() => goToPage(currentPage + 1)}
-					disabled={!hasNextPage}
-				>
-					»
-				</button>
-			</div>
+					{#each pages as page}
+						<button
+							class:btn-active={page === currentPage}
+							class="btn"
+							on:click={() => goToPage(page)}
+							disabled={!cursors[page] && page !== 0}
+						>
+							{page + 1}
+						</button>
+					{/each}
+					<button class="btn" on:click={() => goToPage(currentPage + 1)} disabled={!hasNextPage}>
+						»
+					</button>
+				</div>
+			{/if}
 		</div>
 	</main>
 </body>
