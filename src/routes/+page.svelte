@@ -2,8 +2,6 @@
 	import '../app.css';
 	import { fetchGraphQL, GET_PUBLIC_DRIVE_TRANSACTIONS } from '$lib/graphql';
 	import { onMount } from 'svelte';
-	import { AppBar } from '@skeletonlabs/skeleton';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	let transactions: any[] = [];
 	let hasNextPage: boolean = true;
 	let cursors: string[] = [];
@@ -51,18 +49,36 @@
 	};
 </script>
 
-<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
-	<h4>ARDRIVE PUBLIC DRIVE EXPLORER</h4>
-
-	<svelte:fragment slot="trail"><LightSwitch /></svelte:fragment>
-</AppBar>
+<div class="navbar bg-base-100">
+	<div class="flex-1">
+		<p class="btn btn-ghost normal-case text-xl">ArDrive Public Drive Explorer</p>
+	</div>
+	<div class="flex-none">
+		<button class="btn btn-square btn-ghost">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				class="inline-block w-5 h-5 stroke-current"
+				><path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+				/></svg
+			>
+		</button>
+	</div>
+</div>
 <body>
 	<main>
 		<div>
 			{#if loading}
-				<div class="container h-full" >
+				<div class="container h-full">
 					<div class="flex items-center justify-center h-full">
-						<div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+						<div
+							class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"
+						/>
 					</div>
 				</div>
 			{:else}
@@ -70,42 +86,27 @@
 					<ul class="list-none">
 						{#each transactions as transaction}
 							<li>
-								<div class="container ">
-									<header class="card-header">
-										<a
-											rel="external"
-											href={transaction.driveLink}
-											target="_blank"
-											class="container cursor-pointer"
-										>
-											<h3 class="mt-0.5 text-lg font-medium text-gray-900 dark:text-white">
-												{transaction.jsonData.name}
-											</h3>
-											<p>By {transaction.owner.address}</p>
-										</a>
-									</header>
-									<section class="p-4">
-										<p
-											class="mt-2 text-sm leading-relaxed text-gray-500 line-clamp-3 dark:text-gray-400"
-										>
-											Block Height: {transaction.block.height}<br />
-											Created On: {transaction.createdOn}
-										</p>
-									</section>
-									<footer class="card-footer">
-										TX: {transaction.id}
-									</footer>
-								</div>
-								<hr class="!border-dashed" />
+								<a
+									rel="external"
+									href={transaction.driveLink}
+									target="_blank"
+									class="container cursor-pointer"
+								>
+									<div class="stat">
+										
+										<div class="stat-value">{transaction.jsonData.name}</div>
+										<div class="stat-title">By {transaction.owner.address}</div>
+									</div>
+								</a>
 							</li>
 						{/each}
 					</ul>
 				</div>
 			{/if}
 
-			<div class="pagination flex justify-center m-4">
+			<div class="btn-group  flex justify-center m-5 ">
 				<button
-					class="mx-1 py-1 px-2 border border-gray-300 rounded cursor-pointer select-none disabled:opacity-50 disabled:cursor-default"
+					class="btn"
 					on:click={() => goToPage(currentPage - 1)}
 					disabled={currentPage === 0}
 				>
@@ -113,10 +114,8 @@
 				</button>
 				{#each pages as page}
 					<button
-						class:bg-red-900={page === currentPage}
-						class:border-red-900={page === currentPage}
-						class:text-white={page === currentPage}
-						class="mx-1 py-1 px-2 border border-gray-300 cursor-pointer select-none disabled:opacity-50 disabled:cursor-default"
+						class:btn-active={page === currentPage}
+						class="btn"
 						on:click={() => goToPage(page)}
 						disabled={!cursors[page] && page !== 0}
 					>
@@ -124,7 +123,7 @@
 					</button>
 				{/each}
 				<button
-					class="mx-1 py-1 px-2 border border-gray-300  rounded cursor-pointer select-none disabled:opacity-50 disabled:cursor-default"
+					class="btn"
 					on:click={() => goToPage(currentPage + 1)}
 					disabled={!hasNextPage}
 				>
