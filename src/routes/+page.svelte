@@ -53,7 +53,7 @@
 	<div class="flex-1">
 		<p class="btn btn-ghost normal-case text-xl">ArDrive Public Drive Explorer</p>
 	</div>
-	<div class="flex-none">
+	<!-- <div class="flex-none">
 		<button class="btn btn-square btn-ghost">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
 				/></svg
 			>
 		</button>
-	</div>
+	</div> -->
 </div>
 <body>
 	<main>
